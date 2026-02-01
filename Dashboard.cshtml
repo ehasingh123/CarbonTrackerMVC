@@ -1,0 +1,162 @@
+﻿@model List<CarbonTrackerMVC.Models.Meal>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- SUMMARY CARDS -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h6>Total Quantity Today</h6>
+                <h4 class="text-primary">
+                    @Model.Sum(m => m.Quantity) g
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h6>Total Emission Today</h6>
+                <h4 class="text-success">
+                    @Model.Sum(m => m.Emission) kg CO₂e
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN DASHBOARD ROW -->
+<div class="row">
+
+    <!-- LEFT SIDE: CHARTS -->
+    <div class="col-lg-7">
+
+        <!-- BAR CHART -->
+        <!-- BAR CHART -->
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <h6 class="text-center mb-3">Emission per Meal</h6>
+
+                <!-- FIXED HEIGHT CONTAINER -->
+                <div style="height:300px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PIE CHART -->
+        <div class="card shadow">
+            <div class="card-body">
+                <h6 class="text-center mb-3">Food Type Contribution</h6>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE: TABLE -->
+    <div class="col-lg-5">
+
+        <div class="card shadow">
+            <div class="card-header fw-bold text-center">
+                Today’s Meals
+            </div>
+
+            <div class="card-body p-0">
+                <table class="table table-striped table-hover text-center mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Food</th>
+                            <th>Qty (g)</th>
+                            <th>Emission</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td>@m.Food</td>
+                                <td>@m.Quantity</td>
+                                <td>@m.Emission</td>
+                                <td>
+                                    <a href="/Meal/Edit/@m.Id"
+                                       class="btn btn-warning btn-sm mb-1">
+                                        Edit
+                                    </a>
+                                    <a href="/Meal/Delete/@m.Id"
+                                       class="btn btn-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = [];
+    const values = [];
+
+    const pieLabels = [];
+    const pieValues = [];
+
+    @foreach (var meal in Model)
+    {
+            <text>
+                labels.push("@meal.Food");
+                values.push(@meal.Emission);
+
+                if (!pieLabels.includes("@meal.Food")) {
+                    pieLabels.push("@meal.Food");
+                    pieValues.push(@meal.Emission);
+                } else {
+                    pieValues[pieLabels.indexOf("@meal.Food")] += @meal.Emission;
+                }
+            </text>
+    }
+
+    new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Emission (kg CO₂e)",
+                data: values,
+                backgroundColor: "#0d6efd"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById("pieChart"), {
+        type: "pie",
+        data: {
+            labels: pieLabels,
+            datasets: [{
+                data: pieValues
+            }]
+        }
+    });
+</script>

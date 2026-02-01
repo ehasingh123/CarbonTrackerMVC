@@ -1,0 +1,40 @@
+﻿@model CarbonTrackerMVC.Models.Meal
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit Meal";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-center fw-bold">
+                ✏️ Edit Meal
+            </div>
+
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Food</label>
+                        <select asp-for="Food" class="form-select">
+                            <option>Dal</option>
+                            <option>Rice</option>
+                            <option>Roti</option>
+                            <option>Paneer</option>
+                            <option>Rajma</option>
+                            <option>Vegetable Sabzi</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Quantity (grams)</label>
+                        <input asp-for="Quantity" class="form-control" />
+                    </div>
+
+                    <button class="btn btn-warning w-100">Update Meal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

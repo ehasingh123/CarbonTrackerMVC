@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Add Meal";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white text-center">
+                <h4>🍽️ Add Meal</h4>
+            </div>
+
+            <div class="card-body">
+                <form method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Food Item</label>
+                        <select name="food" class="form-select">
+                            <optgroup label="Vegetarian">
+                                <option>Dal</option>
+                                <option>Rice</option>
+                                <option>Roti</option>
+                                <option>Paneer</option>
+                                <option>Rajma</option>
+                                <option>Vegetable Sabzi</option>
+                                <option>Chole</option>
+                                <option>Curd</option>
+                                <option>Milk</option>
+                                <option>Vegetable Pulao</option>
+                                <option>Idli</option>
+                            </optgroup>
+
+                            <optgroup label="Non-Vegetarian">
+                                <option>Chicken Curry</option>
+                                <option>Chicken Biryani</option>
+                                <option>Egg Curry</option>
+                                <option>Fish Curry</option>
+                                <option>Mutton Curry</option>
+                            </optgroup>
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Quantity (grams)</label>
+                        <input type="number" name="quantity" class="form-control" value="200" />
+                    </div>
+
+                    <button class="btn btn-success w-100">
+                        ➕ Add Meal
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
